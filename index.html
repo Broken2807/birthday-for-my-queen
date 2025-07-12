@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en"
+<head>
+  <meta charset="UTF-8" />
+  <title>Happy Birthday My Queen</title>
+  <style>
+    body {
+      margin: 0; padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #000;
+      color: #fff;
+      overflow: hidden;
+    }
+    #container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+    #countdown, #message, #gif, #card {
+      position: absolute;
+      text-align: center;
+    }
+    #countdown {
+      font-size: 5vw;
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+    #message {
+      font-size: 4vw;
+      opacity: 0;
+      white-space: pre-wrap;
+      transition: opacity 1s;
+    }
+    #gif img {
+      max-width: 80vw;
+      opacity: 0;
+      transition: opacity 1s;
+    }
+    #card {
+      opacity: 0;
+      position: fixed;
+      top: 5%;
+      left: 5%;
+      right: 5%;
+      bottom: 5%;
+      background: #fff;
+      color: #000;
+      padding: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      overflow: auto;
+      border-radius: 10px;
+      transition: opacity 1s;
+    }
+    .page {
+      display: none;
+    }
+    .active {
+      display: block;
+    }
+    #controls {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      z-index: 999;
+    }
+    #card button {
+      background: #000;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 16px;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="container">
+  <div id="countdown"></div>
+  <div id="message">Happy Birthday My Queen</div>
+  <div id="gif"><img src="https://i.imgur.com/8VPTkLj.gif" alt="cute cat cake"></div>
+</div>
+
+<div id="card">
+  <button id="prev">⭠ Prev</button>
+  <button id="next">Next ⭢</button>
+  <div id="pages">
+    <div class="page active"><h2>Page 1</h2><p>Hi my love 💖</p></div>
+    <div class="page"><h2>Page 2</h2><p>Today is your day, and I want the whole world to know it 💫</p></div>
+    <div class="page"><h2>Page 3</h2><p>You are beautiful, inside and out 💋</p></div>
+    <div class="page"><h2>Page 4</h2><p>Your smile melts my soul every time 😍</p></div>
+    <div class="page"><h2>Page 5</h2><p>Thank you for loving me, even when I fall short 🥺</p></div>
+    <div class="page"><h2>Page 6</h2><p>You’re not just my girlfriend, you’re my peace, my home, my heartbeat ❤️</p></div>
+    <div class="page"><h2>Page 7</h2><p>I pray this birthday brings you joy, peace, and every sweet thing you deserve 🌸</p></div>
+    <div class="page"><h2>Page 8</h2><p>There’s no one like you. I’m lucky to be yours 💞</p></div>
+    <div class="page"><h2>Page 9</h2><p>Here’s to more memories, laughter, and deep love 🎉</p></div>
+    <div class="page"><h2>Page 10</h2><p>Happy Birthday again, my Queen 👑 I love you endlessly 🥰</p></div>
+  </div>
+</div>
+
+<div id="controls">
+  <audio id="music" src="https://actions.google.com/sounds/v1/ambiences/birthday_party.ogg" loop></audio>
+  <button id="playPause">Play 🎵</button>
+</div>
+
+<script>
+  const seq = [
+    {el:'#countdown', txt:'3...', d:1000},
+    {el:'#countdown', txt:'2...', d:1000},
+    {el:'#countdown', txt:'1...', d:1000},
+    {el:'#message', txt:'Happy Birthday My Queen 🎂', d:2000},
+    {el:'#gif', d:3000},
+    {el:'#card', d:0}
+  ];
+
+  async function runSeq() {
+    for (let s of seq) {
+      if (s.txt) {
+        const el = document.querySelector(s.el);
+        el.textContent = s.txt;
+        el.style.opacity = 1;
+      } else {
+        document.querySelector(s.el).style.opacity = 1;
+      }
+      await new Promise(r => setTimeout(r, s.d));
+    }
+  }
+
+  runSeq();
+
+  // Card navigation
+  let idx = 0;
+  const pages = document.querySelectorAll('.page');
+  document.getElementById('next').onclick = () => {
+    pages[idx].classList.remove('active');
+    idx = Math.min(idx + 1, pages.length - 1);
+    pages[idx].classList.add('active');
+  };
+  document.getElementById('prev').onclick = () => {
+    pages[idx].classList.remove('active');
+    idx = Math.max(idx - 1, 0);
+    pages[idx].classList.add('active');
+  };
+
+  // Music controls
+  const music = document.getElementById('music');
+  const btn = document.getElementById('playPause');
+  btn.onclick = () => {
+    if (music.paused) {
+      music.play();
+      btn.textContent = 'Pause 🎶';
+    } else {
+      music.pause();
+      btn.textContent = 'Play 🎵';
+    }
+  };
+</script>
+
+</body>
+</html>
