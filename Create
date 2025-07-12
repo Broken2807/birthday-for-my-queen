@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Happy Birthday 🌸</title>
+  <link href="https://fonts.googleapis.com/css2?family=Kalam&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      margin: 0; padding: 0;
+      width: 100vw; height: 100vh;
+      overflow: hidden;
+      font-family: 'Kalam', cursive;
+      background: #fef8f8;
+      color: #333;
+    }
+
+    #rotate-message {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: #000;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      font-size: 5vw;
+      z-index: 9999;
+    }
+
+    #rotate-message img {
+      width: 80px;
+      margin-top: 20px;
+      animation: rotateIcon 1s infinite alternate;
+    }
+
+    @keyframes rotateIcon {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(90deg); }
+    }
+
+    #countdown-container, #notebook, #music-btn {
+      display: none;
+    }
+
+    #countdown {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(0deg, #ffecf1 0px, #fff0f4 5px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10vw;
+      color: #e91e63;
+      font-weight: bold;
+      animation: bgPulse 1.2s infinite alternate;
+    }
+
+    @keyframes bgPulse {
+      0% { background-color: #ffe3ec; }
+      100% { background-color: #ffd6e8; }
+    }
+
+    #notebook {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      padding: 20px;
+      background: #fffdfd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      flex-direction: column;
+    }
+
+    .page {
+      display: none;
+      font-size: 3vw;
+      line-height: 1.6;
+      padding: 0 10%;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    #music-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 10;
+      background: #fff;
+      color: #e91e63;
+      font-size: 18px;
+      border: none;
+      border-radius: 20px;
+      padding: 10px 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+
+    .illustration {
+      margin: 20px 0;
+      font-size: 5vw;
+    }
+  </style>
+</head>
+<body>
+
+<div id="rotate-message">
+  Please rotate your device to begin 🎉
+  <img src="https://cdn-icons-png.flaticon.com/512/1827/1827392.png" alt="Rotate Icon" />
+</div>
+
+<button id="music-btn">🎵 Play Song</button>
+
+<div id="countdown-container">
+  <div id="countdown">3</div>
+</div>
+
+<div id="notebook">
+  <div class="page active">
+    <div class="illustration">🎀</div>
+    Just a little something to make you smile today.
+  </div>
+  <div class="page">
+    <div class="illustration">💫</div>
+    You carry so much beauty in the way you simply exist.
+  </div>
+  <div class="page">
+    <div class="illustration">🌸</div>
+    There's a softness in your energy that makes the world feel gentler.
+  </div>
+  <div class="page">
+    <div class="illustration">📖</div>
+    If someone asked me what calm looks like, I’d point to you.
+  </div>
+  <div class="page">
+    <div class="illustration">🩰</div>
+    The way you move through life—graceful, quiet, and kind—is art.
+  </div>
+  <div class="page">
+    <div class="illustration">✨</div>
+    You have this quiet way of making everything feel lighter.
+  </div>
+  <div class="page">
+    <div class="illustration">🌷</div>
+    Your presence is a gentle kind of magic.
+  </div>
+  <div class="page">
+    <div class="illustration">🌟</div>
+    Every little thing you do has a beauty to it. Even the unnoticed things.
+  </div>
+  <div class="page">
+    <div class="illustration">🍰</div>
+    You’re not just someone’s favorite. You’re someone’s peace.
+  </div>
+  <div class="page">
+    <div class="illustration">💗</div>
+    Happy Birthday to someone who deserves the whole sky, soft and pink.
+  </div>
+</div>
+
+<audio id="music" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_0c2e3c82c5.mp3?filename=happy-birthday-116304.mp3" loop></audio>
+
+<script>
+  let isLandscape = () => window.innerWidth > window.innerHeight;
+
+  function showMainContent() {
+    document.getElementById("rotate-message").style.display = "none";
+    document.getElementById("countdown-container").style.display = "flex";
+    let countdown = document.getElementById("countdown");
+    let values = ["3", "2", "1"];
+    let i = 0;
+
+    let timer = setInterval(() => {
+      countdown.textContent = values[i];
+      i++;
+      if (i >= values.length) {
+        clearInterval(timer);
+        setTimeout(() => {
+          document.getElementById("countdown-container").style.display = "none";
+          document.getElementById("notebook").style.display = "flex";
+          document.getElementById("music-btn").style.display = "block";
+        }, 1000);
+      }
+    }, 1000);
+  }
+
+  function checkOrientation() {
+    if (isLandscape()) {
+      showMainContent();
+    } else {
+      document.getElementById("rotate-message").style.display = "flex";
+      document.getElementById("notebook").style.display = "none";
+      document.getElementById("countdown-container").style.display = "none";
+      document.getElementById("music-btn").style.display = "none";
+    }
+  }
+
+  window.addEventListener("resize", checkOrientation);
+  window.addEventListener("orientationchange", checkOrientation);
+  window.addEventListener("load", checkOrientation);
+
+  // Tap-to-flip pages
+  const notebook = document.getElementById("notebook");
+  const pages = document.querySelectorAll(".page");
+  let idx = 0;
+  notebook.addEventListener("click", () => {
+    pages[idx].classList.remove("active");
+    idx = (idx + 1) % pages.length;
+    pages[idx].classList.add("active");
+  });
+
+  // Music
+  const musicBtn = document.getElementById("music-btn");
+  const music = document.getElementById("music");
+  musicBtn.onclick = () => {
+    if (music.paused) {
+      music.play();
+      musicBtn.textContent = "⏸ Pause Song";
+    } else {
+      music.pause();
+      musicBtn.textContent = "🎵 Play Song";
+    }
+  };
+</script>
+
+</body>
+</html>
